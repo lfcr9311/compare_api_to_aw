@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/cron/*.py": { "includeFiles": "weather/**", "maxDuration": 60 }
+  },
+  "crons": [
+    { "path": "/api/cron/accuweather", "schedule": "15 * * * *" },
+    { "path": "/api/cron/tomorrow", "schedule": "15 * * * *" },
+    { "path": "/api/cron/metar", "schedule": "15 * * * *" }
+  ]
+}
