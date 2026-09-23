@@ -1,5 +1,11 @@
 {
-  "framework": null,
+  "builds": [
+    {
+      "src": "api/cron/*.py",
+      "use": "@vercel/python",
+      "config": { "includeFiles": "weather/**" }
+    }
+  ],
   "crons": [
     { "path": "/api/cron/accuweather", "schedule": "15 * * * *" },
     { "path": "/api/cron/tomorrow", "schedule": "15 * * * *" },
