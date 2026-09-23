@@ -7,8 +7,8 @@
     }
   ],
   "crons": [
-    { "path": "/api/cron/accuweather", "schedule": "15 * * * *" },
-    { "path": "/api/cron/tomorrow", "schedule": "15 * * * *" },
-    { "path": "/api/cron/metar", "schedule": "15 * * * *" }
+    { "path": "/api/cron/accuweather.py", "schedule": "15 * * * *" },
+    { "path": "/api/cron/tomorrow.py", "schedule": "15 * * * *" },
+    { "path": "/api/cron/metar.py", "schedule": "15 * * * *" }
   ]
 }
