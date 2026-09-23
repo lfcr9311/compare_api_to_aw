@@ -1,6 +1,9 @@
+import logging
 import os
 
 import psycopg
+
+log = logging.getLogger(__name__)
 
 SCHEMA = """
 -- Previsão congelada: gravada uma única vez, nunca atualizada.
@@ -44,7 +47,9 @@ CREATE TABLE IF NOT EXISTS metar_obs (
 
 
 def connect() -> psycopg.Connection:
-    return psycopg.connect(os.environ["DATABASE_URL"])
+    conn = psycopg.connect(os.environ["DATABASE_URL"])
+    log.info("conectado ao banco %s em %s", conn.info.dbname, conn.info.host)
+    return conn
 
 
 def create_schema() -> None:
