@@ -10,21 +10,15 @@ log = logging.getLogger(__name__)
 
 
 def make_handler(job):
-    """Cria o handler Vercel para um job. A Vercel envia `Authorization: Bearer $CRON_SECRET`."""
+    """Cria o handler Vercel para um job (sem autenticação)."""
 
     class handler(BaseHTTPRequestHandler):
         def do_GET(self):
             log.info("chamada %s (user-agent=%s)", self.path, self.headers.get("User-Agent"))
-            missing = [k for k in ("CRON_SECRET", "DATABASE_URL", "TOMORROW_API_KEY", "REDEMET_API_KEY")
+            missing = [k for k in ("DATABASE_URL", "TOMORROW_API_KEY", "REDEMET_API_KEY")
                        if not os.environ.get(k)]
             if missing:
                 log.error("variáveis de ambiente ausentes: %s", ", ".join(missing))
-            secret = os.environ.get("CRON_SECRET")
-            if not secret:
-                return self._send(401, {"error": "CRON_SECRET não configurada"})
-            if self.headers.get("Authorization") != f"Bearer {secret}":
-                log.warning("401: header Authorization %s", "ausente" if not self.headers.get("Authorization") else "não confere")
-                return self._send(401, {"error": "unauthorized"})
             params = {k: v[0] for k, v in parse_qs(urlparse(self.path).query).items()}
             t0 = time.monotonic()
             try:
